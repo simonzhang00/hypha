@@ -103,7 +103,7 @@ namespace hypha{
             hypha::scan_kernel<<<grid_size,256>>>(d_matrix,number_of_columns,d_leftmostnz,d_lookup,global_barrier,d_col_nrs,d_col_offs,d_stable_flags,d_us_num,d_unstables);//,1, d_maxleftfixed);//, d_negative);
 
             cudaDeviceSynchronize();
-            printf("number of unstable columns: %d out of %d\n", *unstable_nr, number_of_columns);
+            printf("number of unstable columns: %ld out of %ld\n", *unstable_nr, number_of_columns);
 
             //don't forget to sort unstable columns
             thrust::sort(thrust::device, d_unstables, d_unstables + (*unstable_nr));
@@ -145,7 +145,7 @@ namespace hypha{
             CUDACHECK(cudaMalloc((void **)&d_stable_flags, sizeof(index)*number_of_columns));
             CUDACHECK(cudaMalloc((void **)&d_col_nrs, sizeof(index)*number_of_columns));
             CUDACHECK(cudaMalloc((void **)&d_col_offs, sizeof(index)*number_of_columns));
-            printf("num columns: %d\n", number_of_columns);
+            printf("num columns: %ld\n", number_of_columns);
 
             //set lookup tables to -1's (use memset instead?)
             CUDACHECK(cudaMemcpy(d_lookup,lookup,sizeof(index)*number_of_columns,cudaMemcpyHostToDevice));
@@ -165,7 +165,7 @@ namespace hypha{
                 while(h_mb_col_nrs[cur_col]==-1)//h_mb_col_nrs[cur_col] is changed from -1 LAST in _set_mb_col()
                 {
                     if(flag){
-                        printf("Load %d Columns\n",number_of_columns);
+                        printf("Load %ld Columns\n",number_of_columns);
                         flag = false;
                     }
                 }
