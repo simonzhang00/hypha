@@ -12,27 +12,31 @@ HYPHA is a hybrid computing engine executed by both GPU and multicore to achieve
 
 The essential foundation of our algorithm design and implementation is the separation of SIMT and MIMD parallelisms in Persistent Homology (PH) matrix reduction computation. With such a separation, we are able to perform massive parallel scanning operations on GPU in a super-fast manner, which also collects rich information from an input boundary matrix for further parallel reduction operations on multicore with high efficiency.
 
-For detailed information about the framework and algorithms design of HYPHA, please refer to the paper in ACM ICS 2019.
+For detailed information about the framework and algorithms design of HYPHA, please refer to the paper in ACM ICS 2019 `[8]`.
 
 ## Installation
 
-Make sure cmake is installed at the correct version for the cmake file (e.g. cmake 2.8.12.2)
+Dependencies: 
 
-Make sure CUDA is installed at the correct version for the cmake file (e.g. CUDA 10.0.130)
+1. Make sure cmake is installed at the correct version for the cmake file (e.g. cmake 2.8.12.2)
 
-Make sure GCC is installed at the correct version for the cmake file (e.g. GCC 7.3.0)
+2. Make sure CUDA is installed at the correct version for the cmake file (e.g. CUDA 10.0.130)
+
+3. Make sure GCC is installed at the correct version for the cmake file (e.g. GCC 7.3.0)
 
 HYPHA is intended to run on high performance computing systems
 
-A GPU with enough device memory is needed to run large datasets. (e.g. Tesla V100 GPU with 16GB device DRAM). If the system's GPU is not compatible, or the system does not have a GPU, error messages will appear.
+Thus, a GPU with enough device memory is needed to run large datasets. (e.g. Tesla V100 GPU with 16GB device DRAM). If the system's GPU is not compatible, or the system does not have a GPU, error messages will appear.
 
-Furthermore, it is also preferable to have a multicore processor (e.g. >= 28 cores) for effective computation, and a large amount of DRAM is required for large datasets. We tested on a 192 GB DRAM single computing node with 40 cores.
+Furthermore, it is also preferable to have a multicore processor (e.g. >= 28 cores) for effective computation, and a large amount of DRAM is required for large datasets. We have tested on a 192 GB DRAM single computing node with 40 cores.
 
-In unix-based operating systems:
+If Unix-based operating system is used, the following actions are needed for installation:
 
-cd to the hypha main folder and type the following sequence of commands:
+type the following sequence of commands:
 
 ```
+git clone https://github.com/MandMs/hypha.git
+cd hypha
 mkdir build
 cd build && cmake .. && make
 ```
@@ -83,7 +87,7 @@ Options:
 
 ```
 
-CAUTION: if the wrong combination of options are typed, hypha's behavior will be undefined or it may recognize the right most option or will print the above help screen.
+CAUTION: if the wrong combination of options are typed, HYPHA's behavior will be undefined or it may recognize the right most option or will print the above help screen.
 
 ## For Datasets
 
@@ -99,7 +103,8 @@ To generate datasets see the project by Bauer, Kerber, Reininghaus:
 
 Notice that DIPHA may require a lower version of openmpi than currently installed on the cluster. e.g. openmpi version 3.0.1
 
-In the dipha/matlab folder, create a .complex file
+In the dipha/matlab folder, there are matlab scripts to create a .complex file
+
 e.g. for a large dataset: ```create_smooth_image_data(100)``` will generate smooth_100.complex
 
 Then in the build folder, run ```./create_phat_filtration ../matlab/inputfile.complex outputfile.bin```
@@ -118,11 +123,11 @@ To convert datasets from/to binary to/from ascii and with/without dualizing, use
 
 e.g. run ```./convert --binary --save-binary --dualize inputfile.bin inputfileDUAL.bin```
 
-Note: In special cases `[4]`, reducing a dualized matrix can significantly reduce the amount of computation needed and thus may give better performance with the --nocompression option on. hypha performs compression `[1]` by default. 
+Note: In special cases `[4]`, reducing a dualized matrix can significantly reduce the amount of computation needed and thus may give better performance with the --nocompression option on. HYPHA performs compression `[1]` by default. 
 
 ## Other PH Softwares of Interest
 
-Here is a brief list of related PH computation softwares: (ordered alphabetically)
+Here is a brief list of related PH computation software packages: (ordered alphabetically)
 
 [Dionysus](https://github.com/mrzv/dionysus)
 
@@ -140,6 +145,8 @@ Here is a brief list of related PH computation softwares: (ordered alphabeticall
 
 [Ripser](https://github.com/Ripser/ripser)
 
+[TDA](https://cran.r-project.org/web/packages/TDA/index.html)
+
 ## References
 
   1. U. Bauer, M. Kerber, J. Reininghaus: _Clear and Compress: Computing Persistent Homology in Chunks_. [http://arxiv.org/pdf/1303.0477.pdf arXiv:1303.0477]
@@ -149,3 +156,5 @@ Here is a brief list of related PH computation softwares: (ordered alphabeticall
   5. C. Chen, M. Kerber: _Persistent Homology Computation With a Twist_. 27th European Workshop on Computational Geometry, 2011.
   6. H. Edelsbrunner, J. Harer: _Computational Topology, An Introduction_. American Mathematical Society, 2010, ISBN 0-8218-4925-5
   7. V. de Silva, D. Morozov, M. Vejdemo-Johansson: _Dualities in persistent (co)homology_. Inverse Problems 27, 2011
+  8. S. Zhang, M. Xiao, C. Guo, L. Geng, H. Wang, X. Zhang: HYPHA: a Framework based on Separation of Parallelisms to Accelerate Persistent Homology Matrix Reduction. Proceedings of the 2019 International Conference on Supercomputing. ACM, 2019.
+
