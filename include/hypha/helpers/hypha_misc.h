@@ -76,6 +76,10 @@ namespace hypha {
     exit(EXIT_FAILURE);\
     }\
     } while(0)
+    #if defined(_MSC_VER)
+        #include <BaseTsd.h>
+        typedef SSIZE_T ssize_t;
+    #endif
 }
 
 #include <phat/helpers/thread_local_storage.h>
