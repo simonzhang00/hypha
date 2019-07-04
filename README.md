@@ -40,9 +40,23 @@ cd hypha
 mkdir build
 cd build && cmake .. && make
 ```
+To optionally install from scratch for Microsoft Visual Studio 2017,
+
+type the following sequence of commands:
+
+```
+git clone https://github.com/MandMs/hypha.git
+cd hypha
+mkdir build
+cd build 
+cmake -G "Visual Studio 15 Win64" ..
+```
+
+There should be a hypha.sln file in the build folder. Open hypha.sln in Microsoft Visual Studio 2017 and set `Release` in the Solution Configurations drop down box and `x64` in the Solution Platforms drop down box. Build the hypha.sln file in Visual Studio 2017 by right clicking `Solution 'hypha'` from the Solution Explorer and selecting build. The executables should appear in the build/Release folder.
+
 ## To Run the Given Example
 
-After running make from the build folder, first untar the examples folder
+On Unix-based systems, after running make from the build folder, first untar the examples folder
 
 ```
 cd ..
@@ -50,11 +64,29 @@ tar -xvf examples.tar.gz
 cd build
 ```
 
-then run the command:
+then run the following command to run a computationally involved dataset:
 
 ```
 ./hypha --spectral_sequence ../examples/high_genus_extended.bin high_genus_extended-pairs.res
 ```
+
+For Microsoft Visual Studio 2017, after building the executables in the build/Release folder, go to the build folder and execute the following commands to untar the examples folder
+
+```
+cd ..
+tar -xvf examples.tar.gz
+cd build/Release
+```
+
+then run the following command to run a computationally involved dataset:
+
+```
+./hypha --spectral_sequence ../../examples/high_genus_extended.bin high_genus_extended-pairs.res
+```
+
+On the 40 core supercomputing node with a Tesla V100 GPU that we ran experiments on, the above matrix reduction takes 1.91 seconds.
+
+We have provided a couple of datasets ranging from small (single_triangle, neptune, Stanfordbunny) to computationally minimal (18-sphere) to computationally more involved datasets (torus, high_genus_extended). This characterization depends on the number of simplices, the computational difficulty of the "tail-columns", and, in general, the distribution of column additions across the boundary matrix discussed in our paper`[8]`. One can obtain the number of simplices with the ```info``` executable. 
 
 In general, to run in the build folder, type:
 
@@ -107,7 +139,7 @@ In the dipha/matlab folder, there are matlab scripts to create a .complex file
 
 e.g. for a large dataset: ```create_smooth_image_data(100)``` will generate smooth_100.complex
 
-Then in the build folder, run ```./create_phat_filtration ../matlab/inputfile.complex outputfile.bin```
+Then in the dipha/build folder, after successfully building the dipha cmake project, run ```./create_phat_filtration ../matlab/inputfile.complex outputfile.bin```
 
 e.g. run ```./create_phat_filtration ../matlab/smooth_100.complex smooth_100.bin```
 
@@ -147,14 +179,26 @@ Here is a brief list of related PH computation software packages: (ordered alpha
 
 [TDA](https://cran.r-project.org/web/packages/TDA/index.html)
 
+## Citing
+```
+@inproceedings{zhang2019hypha,
+  title={HYPHA: a framework based on separation of parallelisms to accelerate persistent homology matrix reduction},
+  author={Zhang, Simon and Xiao, Mengbai and Guo, Chengxin and Geng, Liang and Wang, Hao and Zhang, Xiaodong},
+  booktitle={Proceedings of the ACM International Conference on Supercomputing},
+  pages={69--81},
+  year={2019},
+  organization={ACM}
+}
+```
+
 ## References
 
-  1. U. Bauer, M. Kerber, J. Reininghaus: _Clear and Compress: Computing Persistent Homology in Chunks_. [http://arxiv.org/pdf/1303.0477.pdf arXiv:1303.0477]
+  1. U. Bauer, M. Kerber, J. Reininghaus: [_Clear and Compress: Computing Persistent Homology in Chunks_](https://arxiv.org/pdf/1303.0477.pdf). Topological methods in data analysis and visualization III. Springer, Cham, 2014. 103-117. 
   2. U. Bauer, M. Kerber, J. Reininghaus: [Distributed computation of persistent homology](http://dx.doi.org/10.1137/1.9781611973198.4). Proceedings of the Sixteenth Workshop on Algorithm Engineering and Experiments (ALENEX), 2014.
   3. U. Bauer, M. Kerber, J. Reininghaus, H. Wagner: [PHAT – Persistent Homology Algorithms Toolbox](https://people.mpi-inf.mpg.de/~mkerber/bkrw-pphat.pdf). Mathematical Software – ICMS 2014, Lecture Notes in Computer Science Volume 8592, 2014, pp 137-143
-  4. U. Bauer, “Ripser/Ripser.” GitHub, 6 Oct. 2018, github.com/Ripser/ripser.
-  5. C. Chen, M. Kerber: _Persistent Homology Computation With a Twist_. 27th European Workshop on Computational Geometry, 2011.
+  4. U. Bauer, “Ripser/Ripser.” GitHub, 6 Oct. 2018, [github.com/Ripser/ripser](http://www.github.com/Ripser/ripser).
+  5. C. Chen, M. Kerber: [_Persistent Homology Computation With a Twist_](http://www.geometrie.tugraz.at/kerber/kerber_papers/ck-phcwat-11.pdf). 27th European Workshop on Computational Geometry, 2011.
   6. H. Edelsbrunner, J. Harer: _Computational Topology, An Introduction_. American Mathematical Society, 2010, ISBN 0-8218-4925-5
-  7. V. de Silva, D. Morozov, M. Vejdemo-Johansson: _Dualities in persistent (co)homology_. Inverse Problems 27, 2011
-  8. S. Zhang, M. Xiao, C. Guo, L. Geng, H. Wang, X. Zhang: HYPHA: a Framework based on Separation of Parallelisms to Accelerate Persistent Homology Matrix Reduction. Proceedings of the 2019 International Conference on Supercomputing. ACM, 2019.
+  7. V. de Silva, D. Morozov, M. Vejdemo-Johansson: [_Dualities in persistent (co)homology_](https://arxiv.org/pdf/1107.5665.pdf). Inverse Problems 27, 2011
+  8. S. Zhang, M. Xiao, C. Guo, L. Geng, H. Wang, X. Zhang: [HYPHA: a Framework based on Separation of Parallelisms to Accelerate Persistent Homology Matrix Reduction](http://web.cse.ohio-state.edu/~zhang.680/publications/p69-zhang.pdf). Proceedings of the 2019 International Conference on Supercomputing. ACM, 2019.
 
