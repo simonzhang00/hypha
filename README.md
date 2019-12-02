@@ -35,7 +35,7 @@ If Unix-based operating system is used, the following actions are needed for ins
 type the following sequence of commands:
 
 ```
-git clone https://github.com/MandMs/hypha.git
+git clone https://github.com/simonzhang00/hypha.git
 cd hypha
 mkdir build
 cd build && cmake .. && make
@@ -45,7 +45,7 @@ To optionally install from scratch for Microsoft Visual Studio 2017,
 type the following sequence of commands:
 
 ```
-git clone https://github.com/MandMs/hypha.git
+git clone https://github.com/simonzhang00/hypha.git
 cd hypha
 mkdir build
 cd build 
